@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Let's Build Cookies Assignment</title>
+    <link rel="icon" type="image/x-icon" href="https://em-content.zobj.net/thumbs/160/apple/354/cookie_1f36a.png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <script>
+        function setCookie(cname, cvalue, exdays) {
+            const d = new Date();
+            d.setTime(d.getTime() + (exdays*24*60*60*1000));
+            let expires = "expires=" + d.toUTCString();
+            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+        }
+    
+        function deleteCookies(fnValue, favoriteFlavor)
+        {
+            setCookie("fullname", fnValue, 0);
+            setCookie("flavor", favoriteFlavor, 0);
+    
+            location.reload();
+        }
+    
+        function getCookie(cname) {
+            let name = cname + "=";
+            let decodedCookie = decodeURIComponent(document.cookie);
+            let ca = decodedCookie.split(';');
+            for(let i = 0; i < ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+    
+        function setCookies()
+        {
+            let fnValue = document.getElementById("fname").value;
+            let flavors = document.getElementsByName('cookie-flavors');
+            let favoriteFlavor = "Chocolate Chip";      
+    
+            for (i = 0; i < flavors.length; i++) {
+                if (flavors[i].checked)
+                {
+                    favoriteFlavor = flavors[i].value;
+                }
+            }
+    
+            setCookie("fullname", fnValue, 30);
+            setCookie("flavor", favoriteFlavor, 30);
+    
+            console.log(getCookie("fullname"));
+            console.log(getCookie("flavor"));
+        }
+    
+        function checkCookie() {
+            let alert = document.getElementById("login-info");
+            let fnValue = document.getElementById("fname").value;
+    
+            let flavors = document.getElementsByName('cookie-flavors');
+            let favoriteFlavor = "Chocolate Chip";      
+        
+            if (getCookie("fullname") != "")
+            {
+                alert.classList.add("alert-success");
+                alert.innerHTML = "<strong>Name:</strong> " + getCookie("fullname") + " <br><strong>Favorite Flavor:</strong> " + getCookie("flavor");
+            }
+            else
+            {
+                alert.classList.remove("alert-success");
+                alert.innerHTML = "No cookie detected - please complete form.";
+            }
+        }
+    </script>
+</head>
+<body onload="checkCookie()">
+    <div class="container m-5">
+        <div class="row">
+            <div class="col-6">
+                <h1>🍪🥛 Cookie Form</h1><br>
+                <h4>Let's Build Cookies Assignment</h3><br>
+                <div class="alert alert-primary" role="alert" id="login-info">
+                    No cookie detected - please complete form.
+                </div>
+                <form onsubmit="setCookies()">
+                    <label><strong>Full Name</strong></label><br>
+                    <input type="text" id="fname" class="form-control" required>
+                    <small id="emailHelp" class="form-text text-muted">Required</small><br>
+
+                    <label><strong>What is your favorite cookie flavor?</strong></label><br>
+                        <input type="radio" id="cc" name="cookie-flavors" value="Chocolate Chip" required>
+                        <label for="cc">Chocolate Chip</label><br>
+                        <input type="radio" id="oatmeal" name="cookie-flavors" value="Oatmeal">
+                        <label for="oatmeal">Oatmeal</label><br>
+                        <input type="radio" id="sd" name="cookie-flavors" value="Snickerdoodle">
+                        <label for="sd">Snickerdoodle</label><br>
+                        <input type="radio" id="sugar" name="cookie-flavors" value="Sugar">
+                        <label for="sugar">Sugar</label><br>
+                        <input type="radio" id="macadamia" name="cookie-flavors" value="Macadamia">
+                        <label for="macadamia">Macadamia</label><br>
+                        <small id="emailHelp" class="form-text text-muted">Required</small><br>
+                        <input type="submit" class="btn btn-primary" style="margin-top: 1rem">
+                        <button type="button" class="btn btn-danger" style="margin-top: 1rem; margin-left: .5rem;" onclick="deleteCookies()">Delete Cookies</button>
+                </form>
+            </div>
+            <div class="col-sm">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/f/f1/2ChocolateChipCookies.jpg" width="500px" style="border-radius: 5rem; margin-top: 2rem;">
+            </div>
+        </div>
+    </div>
+</body>
+</html>
